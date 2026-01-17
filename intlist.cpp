@@ -1,6 +1,6 @@
 // intlist.cpp
 // Implements class IntList
-// YOUR NAME(S), AND DATE
+// Arjun Verma, 16.Jan.2026
 
 #include "intlist.h"
 
@@ -9,64 +9,151 @@ using std::cout;
 
 // copy constructor
 IntList::IntList(const IntList& source) {
-    //IMPLEMENT THIS
+    head = nullptr;
+    tail = nullptr;
+    
+    Node* p = source.head;
+    while (p != nullptr) {
+        push_back(p->info);
+        p = p->next;
+    }
 }
 
 // destructor deletes all nodes
 IntList::~IntList() {
-    //IMPLEMENT THIS
+    Node* p = head;
+    while (p != nullptr) {
+        Node* temp = p;
+        p = p->next;
+        delete temp;
+    }
 }
 
 
 // return sum of values in list
 int IntList::sum() const {
-    return 0; // REPLACE THIS NON-SOLUTION
+    int s = 0;
+    Node* p = head;
+    while (p != nullptr) {
+        s += p->info;
+        p = p->next;
+    }
+    return s;
 }
 
 // returns true if value is in the list; false if not
 bool IntList::contains(int value) const {
-    return false; // REPLACE THIS NON-SOLUTION
+    Node* p = head;
+    while (p != nullptr) {
+        if (p->info == value) {
+            return true;
+        }
+        p = p->next;
+    }
+    return false;
 }
 
 // returns maximum value in list, or 0 if empty list
 int IntList::max() const {
-    return 0; // REPLACE THIS NON-SOLUTION
+    if (head == nullptr) {
+        return 0;
+    }
+    
+    int max = head->info;
+    Node* p = head->next;
+    while (p != nullptr) {
+        if (p->info > max) {
+            max = p->info;
+        }
+        p = p->next;
+    }
+    return max;
 }
 
 // returns average (arithmetic mean) of all values, or
 // 0 if list is empty
 double IntList::average() const {
-    return 0.0; // REPLACE THIS NON-SOLUTION
+    if (head == nullptr) {
+        return 0.0;
+    }
+    
+    int n = count();
+    if (n == 0) {
+        return 0.0;
+    }
+    
+    return 1.0 * sum() / n;
 }
 
 // inserts value as new node at beginning of list
 void IntList::push_front(int value) {
-    // IMPLEMENT
+    Node* n = new Node;
+    n->info = value;
+    n->next = head;
+    head = n;
+    
+    if (tail == nullptr) {
+        tail = n;
+    }
 }
 
 // append value at end of list
 void IntList::push_back(int value) {
-    // IMPLEMENT
- 
+    Node* n = new Node;
+    n->info = value;
+    n->next = nullptr;
+    
+    if (head == nullptr) {
+        head = n;
+        tail = n;
+    } else {
+        tail->next = n;
+        tail = n;
+    }
 }
 
 // return count of values
 int IntList::count() const {
-   //IMPLEMENT THIS
-   return 0;
+   int n = 0;
+   Node* p = head;
+   while (p != nullptr) {
+       n++;
+       p = p->next;
+   }
+   return n;
 }
 
 
 //Assignment operator should copy the list from the source
 //to this list, deleting/replacing any existing nodes
 IntList& IntList::operator=(const IntList& source){
-    //IMPLEMENT
+    if (this == &source) {
+        return *this;
+    }
+    
+    Node* p = head;
+    while (p != nullptr) {
+        Node* temp = p;
+        p = p->next;
+        delete temp;
+    }
+    
+    head = nullptr;
+    tail = nullptr;
+    
+    p = source.head;
+    while (p != nullptr) {
+        push_back(p->info);
+        p = p->next;
+    }
+    
     return *this;
 }
 
 // constructor sets up empty list
 IntList::IntList(){ 
-    //IMPLEMENT THIS 
+    head = nullptr;
+    tail = nullptr;
 }
 
 
